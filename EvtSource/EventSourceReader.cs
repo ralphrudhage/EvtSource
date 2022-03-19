@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,11 +36,12 @@ namespace EvtSource
         /// An instance of EventSourceReader
         /// </summary>
         /// <param name="url">URL to listen from</param>
+        /// <param name="token">JWT as authorization header</param>
         /// <param name="handler">An optional custom handler for HttpClient</param>
-        public EventSourceReader(Uri url, HttpMessageHandler handler = null)
-        {
+        public EventSourceReader(Uri url, string token, HttpMessageHandler handler = null) {
             Uri = url;
             Hc = new HttpClient(handler ?? new HttpClientHandler());
+            Hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
 
